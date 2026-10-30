@@ -879,10 +879,10 @@
   <div id="countdown-screen" class="screen active">
     <div class="countdown-title">⏤ COUNTDOWN BIRTHDAY SYAFIQ FITRI ⏤</div>
     <div class="countdown-container" id="countdown-container">
-      <div class="countdown-box"><div class="number" id="days">00</div><div class="label">Days</div></div>
-      <div class="countdown-box"><div class="number" id="hours">00</div><div class="label">Hours</div></div>
-      <div class="countdown-box"><div class="number" id="minutes">00</div><div class="label">Minutes</div></div>
-      <div class="countdown-box"><div class="number" id="seconds">00</div><div class="label">Seconds</div></div>
+      <div class="countdown-box" style="min-width: 150px; padding: 30px;">
+        <div class="number" id="simple-countdown" style="font-size: 5rem;">5</div>
+        <div class="label" style="font-size: 1rem; margin-top: 10px;">GET READY...</div>
+      </div>
     </div>
   </div>
 
@@ -914,7 +914,7 @@
     <div class="popup-inner">
       <h2 class="neon-title">Happy Birthday</h2>
       <p class="sub-text">Abeyy<br><span class="name-highlight">Syafiq Fitri</span></p>
-      <button class="btn-engine" id="close-popup-btn">Nexttt</button>
+      <button class="btn-engine" id="close-popup-btn">PROCEED</button>
     </div>
   </div>
 
@@ -947,32 +947,31 @@
       <div class="gift-box" id="gift-box">
         <div class="ribbon-horizontal"></div>
       </div>
-      <div style="font-size: 1.1rem; color: #aaa; letter-spacing: 2px; margin-bottom: 10px;">Nak hadiah takk? haa tekan sini 👆</div>
+      <div style="font-size: 1.1rem; color: #aaa; letter-spacing: 2px; margin-bottom: 10px;">TAP TO UNLOCK CARGO 👆</div>
     </div>
     <div class="gift-image-container" id="gift-image-container">
       <img id="gift-image" src="https://via.placeholder.com/300x200/1e3a8a/ffffff?text=Your+Gift+Here" alt="Gift">
-      <button class="btn-royal" id="claim-btn">Claim</button>
-      <div class="claim-message" id="claim-message">Dah claim nnti bagitau auuu</div>
+      <button class="btn-royal" id="claim-btn">CLAIM</button>
+      <div class="claim-message" id="claim-message">jangan lupa claim tauuuuu</div>
     </div>
   </div>
 
   <!-- PHASE 4: FADE SEQUENCE -->
   <div id="fade-sequence-screen" class="screen">
-    <div class="fade-text" id="fade-text-1">Belum Habis Lagiiiii</div>
-    <div class="fade-text hidden" id="fade-text-2">Tapi Ni Last Dh Hmmm</div>
-    <div class="fade-text hidden" id="fade-text-3">Selama Ni Awk Jh Hk Sokmo Bagi Saya Lagu Keyy</div>
-    <div class="fade-text hidden" id="fade-text-4">Ni Saya Pulak Nk Bagi Awk Lagu</div>
-    <div class="fade-text hidden" id="fade-text-5">Bukey Saya Nyanyi Lah Tapi HEHE</div>
-    <div class="fade-text hidden" id="fade-text-6">Lagu Ni Untuk Awkkk</div>
-    <div class="fade-text hidden" id="fade-text-7">Dengar Betul-Betul Tauu</div>
+    <div class="fade-text" id="fade-text-1">belum habis lagiiiii</div>
+    <div class="fade-text hidden" id="fade-text-2">tapi ni last dh hmmm</div>
+    <div class="fade-text hidden" id="fade-text-3">selama ni awk jh hk sokmo bagi saya lagu keyy</div>
+    <div class="fade-text hidden" id="fade-text-4">ni saya pulak nk bagi awk lagu</div>
+    <div class="fade-text hidden" id="fade-text-5">bukey saya nyanyi lah</div>
+    <div class="fade-text hidden" id="fade-text-6">ni kata hati saya untuk awk</div>
+    <div class="fade-text hidden" id="fade-text-7">dengar betul-betul tauu</div>
   </div>
 
   <!-- PHASE 4b: VIDEO -->
   <div id="video-screen" class="screen">
     <div class="video-container" id="video-container">
-    <iframe id="youtube-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>   
-    </div>
-    <button class="btn-royal" id="finish-video-btn">dah habis tgk baru tekan sini</button>
+    <iframe id="youtube-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>    </div>
+    <button class="btn-royal" id="finish-video-btn">FINISH</button>
   </div>
 
   <!-- PHASE 5: FINAL SCREEN -->
@@ -993,7 +992,6 @@
     (function() {
       const ENGINE_REV_SRC = 'https://www.myinstants.com/media/sounds/motorcycle-rev.mp3';
       const YOUTUBE_VIDEO_ID = 'WfYhq1arbp4'; 
-      const TARGET_DATE = new Date('2025-10-30T00:00:00').getTime();
 
       const countdownScreen = document.getElementById('countdown-screen');
       const cakeScreen = document.getElementById('cake-screen');
@@ -1002,11 +1000,6 @@
       const fadeSequenceScreen = document.getElementById('fade-sequence-screen');
       const videoScreen = document.getElementById('video-screen');
       const finalScreen = document.getElementById('final-screen');
-
-      const daysEl = document.getElementById('days');
-      const hoursEl = document.getElementById('hours');
-      const minutesEl = document.getElementById('minutes');
-      const secondsEl = document.getElementById('seconds');
 
       const popupSurprise = document.getElementById('popup-surprise');
       const popupOverlay = document.getElementById('popup-overlay');
@@ -1045,35 +1038,26 @@
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       }
 
-      // ---------- COUNTDOWN ----------
-      function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = TARGET_DATE - now;
-
-        if (distance <= 0) {
-          clearInterval(countdownInterval);
-          startCakeScene();
-          return;
-        }
-
-        daysEl.textContent = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        hoursEl.textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        minutesEl.textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-        secondsEl.textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-      }
-
+      // ---------- COUNTDOWN 5 HINGGA 1 ----------
       function initCountdown() {
-        const now = new Date().getTime();
-        if (now >= TARGET_DATE) {
-          hideAllScreens();
-          startCakeScene();
-        } else {
-          hideAllScreens();
-          countdownScreen.classList.add('active');
-          updateCountdown();
-          countdownInterval = setInterval(updateCountdown, 1000);
-        }
+        hideAllScreens();
+        countdownScreen.classList.add('active');
+        
+        let count = 5;
+        const simpleCountdownEl = document.getElementById('simple-countdown');
+        simpleCountdownEl.textContent = count;
+
+        countdownInterval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            simpleCountdownEl.textContent = count;
+          } else {
+            clearInterval(countdownInterval);
+            startCakeScene();
+          }
+        }, 1000);
       }
+      
 
       // ---------- CAKE SCENE WITH KARAOKE CAPTIONS ----------
       function startCakeScene() {
@@ -1093,10 +1077,10 @@
         karaokeContainer.innerHTML = '';
 
         const lyrics = [
-          { text: "Happy Birthday to YOU", duration: 2500 },
-          { text: "Happy Birthday to YOU", duration: 2500 },
-          { text: "Happy Birthday to SYAFIQ FITRI", duration: 3000 },
-          { text: "Happy Birthday to YOUUUUU", duration: 2500 }
+          { text: "Happy Birthday to you...", duration: 2200 },
+          { text: "Happy Birthday to you...", duration: 2200 },
+          { text: "Happy Birthday Syafiq Fitri...", duration: 2800 },
+          { text: "Happy Birthday to you...", duration: 2200 }
         ];
 
         let cumulativeDelay = 600;
